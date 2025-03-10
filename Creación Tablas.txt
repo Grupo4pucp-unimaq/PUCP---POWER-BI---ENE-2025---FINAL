@@ -1,0 +1,58 @@
+CREATE TABLE G4.Clientes (
+    Id_Cliente INT PRIMARY KEY, 
+    Razon_Social VARCHAR(255) NOT NULL,  
+    Contacto VARCHAR(255),  
+    Mercado VARCHAR(255), 
+    Tipo_Documento VARCHAR(50),  
+    Identificacion_Fiscal VARCHAR(20),  
+    Direccion VARCHAR(255), 
+    Telefono VARCHAR(20),  
+    Email VARCHAR(100),
+	Departamento VARCHAR (100),
+	Provincia VARCHAR (100)
+);
+
+CREATE TABLE G4.Empleados (
+    Cod_Empleado INT PRIMARY KEY, 
+    Nombres VARCHAR(100) NOT NULL,  
+    Apellidos VARCHAR(100) NOT NULL,  
+    Fecha_Ingreso DATE NOT NULL,  
+    Departamento VARCHAR(100) NOT NULL  
+);
+
+
+CREATE TABLE G4.Materiales (
+    Id_Material VARCHAR(50) PRIMARY KEY,
+    Equipo VARCHAR(100),
+    Modelo VARCHAR(50),
+    Pais_Fabricacion VARCHAR(50),
+    Linea VARCHAR(50),
+    Gerencia VARCHAR(50)
+);
+
+CREATE TABLE G4.Cotizaciones_Totales (
+    Id_Cotizacion BIGINT PRIMARY KEY,
+    Cod_Empleado INT,
+    Id_Material VARCHAR(50),
+    Id_Cliente INT,
+    Cantidad INT,
+    Estado VARCHAR(50),
+    Precio_Venta DECIMAL(18,2),
+    Fecha_Cotizacion DATE,
+    FOREIGN KEY (Cod_Empleado) REFERENCES G4.Empleados(Cod_Empleado),
+    FOREIGN KEY (Id_Material) REFERENCES G4.Materiales(Id_Material),
+    FOREIGN KEY (Id_Cliente) REFERENCES G4.Clientes(Id_Cliente)
+);
+
+
+
+CREATE TABLE G4.Facturas (
+    Id_Factura BIGINT PRIMARY KEY,
+    Id_Cotizacion BIGINT,
+    Metodo_Pago VARCHAR(50),
+    Fecha_Factura DATE,
+    PV DECIMAL(18,2),
+    Monto_IGV DECIMAL(18,2),
+    Valor_Venta DECIMAL(18,2),
+    FOREIGN KEY (Id_Cotizacion) REFERENCES G4.Cotizaciones_Totales(Id_Cotizacion)
+);
